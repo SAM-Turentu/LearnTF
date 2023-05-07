@@ -161,3 +161,5 @@ cython_debug/
 .idea/
 *.idea/
 .DS_Store
+tf_datasets/docs
+*tf_datasets/docs

@@ -37,6 +37,9 @@ class Utils(object):
         """
         return os.path.join(os.path.join(ProjectPath, 'mnist_data'), path)
 
+    def tf_datasets_path(self, path):
+        return os.path.join(os.path.join(ProjectPath, 'tf_datasets'), path)
+
     def load_fashion_data(self):
         files = [
             "train-labels-idx1-ubyte.gz",
@@ -77,6 +80,9 @@ class Utils(object):
     def imdb_word_index_path(self):
         "get_word_index"
         return self.join_path(self.imdb_path, 'reuters_word_index.json')
+
+    def load_tfds(self):
+        ...
 
 
 tools = Utils()
