@@ -68,4 +68,6 @@ class Utils(object):
 
 tools = Utils()
 
-__all__: 'tools'
+__all__: [
+    'tools'
+]
