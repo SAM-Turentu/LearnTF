@@ -27,6 +27,7 @@ class Utils(object):
     def __init__(self):
         self.fashion_path = self._mnistdata_path('fashion')
         self.mnist_path = self._mnistdata_path('mnist')
+        self.imdb_path = self._mnistdata_path('imdb')
 
     def _mnistdata_path(self, path):
         """
@@ -35,6 +36,9 @@ class Utils(object):
         :return:
         """
         return os.path.join(os.path.join(ProjectPath, 'mnist_data'), path)
+
+    def tf_datasets_path(self, path):
+        return os.path.join(os.path.join(ProjectPath, 'tf_datasets'), path)
 
     def load_fashion_data(self):
         files = [
@@ -64,6 +68,21 @@ class Utils(object):
             )
 
         return (x_train, y_train), (x_test, y_test)
+
+    def join_path(self, dir, filename):
+        return os.path.join(dir, filename)
+
+    @property
+    def imdb_data_path(self):
+        return self.join_path(self.imdb_path, 'imdb.npz')
+
+    @property
+    def imdb_word_index_path(self):
+        "get_word_index"
+        return self.join_path(self.imdb_path, 'reuters_word_index.json')
+
+    def load_tfds(self):
+        ...
 
 
 tools = Utils()
