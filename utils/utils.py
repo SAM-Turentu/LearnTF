@@ -12,6 +12,7 @@ import os.path
 import numpy as np
 
 from utils import ProjectPath
+from utils.join_path import mnist_data_path
 
 
 def switch_platform():
@@ -25,21 +26,7 @@ def switch_platform():
 class Utils(object):
 
     def __init__(self):
-        self.fashion_path = self._mnistdata_path('fashion')
-        self.mnist_path = self._mnistdata_path('mnist')
-        self.imdb_path = self._mnistdata_path('imdb')
-        self.tf_datasets = os.path.join(ProjectPath, 'tf_datasets')
-
-    def _mnistdata_path(self, path):
-        """
-        拼接数据集路径
-        :param path: 数据集类型
-        :return:
-        """
-        return os.path.join(os.path.join(ProjectPath, 'mnist_data'), path)
-
-    def _tf_datasets_path(self, path):
-        return os.path.join(os.path.join(ProjectPath, 'tf_datasets'), path)
+        ...
 
     def load_fashion_data(self):
         files = [
@@ -50,7 +37,7 @@ class Utils(object):
         ]
         paths = []
         for file in files:
-            paths.append(os.path.join(self.fashion_path, file))
+            paths.append(os.path.join(mnist_data_path.fashion_path, file))
 
         with gzip.open(paths[0], "rb") as lbpath:
             y_train = np.frombuffer(lbpath.read(), np.uint8, offset=8)
@@ -70,24 +57,9 @@ class Utils(object):
 
         return (x_train, y_train), (x_test, y_test)
 
-    def join_path(self, dir, filename):
-        return os.path.join(dir, filename)
-
-    @property
-    def imdb_data_path(self):
-        return self.join_path(self.imdb_path, 'imdb.npz')
-
-    @property
-    def imdb_word_index_path(self):
-        "get_word_index"
-        return self.join_path(self.imdb_path, 'reuters_word_index.json')
-
-    def load_tfds(self, filename):
-        return self.join_path(self.imdb_reviews_path, filename)
-
 
 tools = Utils()
 
 __all__: [
-    'tools'
+    'tools',
 ]
