@@ -16,11 +16,7 @@ from utils.utils import tools
 
 
 def main():
-    datasets_path = '/Users/sam/projects/GitHubRepositories/datasets'
-    path = tools.tf_datasets_path('datasets')
-
-    # tf.io.gfile.exists("gs://bucket/file")
-
+    path = tools.tf_datasets
     train_data, validation_data, test_data = tfds.load(
         name='imdb_reviews',
         split=('train[:60%]', 'train[60%:]', 'test'),

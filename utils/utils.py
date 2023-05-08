@@ -28,6 +28,7 @@ class Utils(object):
         self.fashion_path = self._mnistdata_path('fashion')
         self.mnist_path = self._mnistdata_path('mnist')
         self.imdb_path = self._mnistdata_path('imdb')
+        self.tf_datasets = os.path.join(ProjectPath, 'tf_datasets')
 
     def _mnistdata_path(self, path):
         """
@@ -37,7 +38,7 @@ class Utils(object):
         """
         return os.path.join(os.path.join(ProjectPath, 'mnist_data'), path)
 
-    def tf_datasets_path(self, path):
+    def _tf_datasets_path(self, path):
         return os.path.join(os.path.join(ProjectPath, 'tf_datasets'), path)
 
     def load_fashion_data(self):
@@ -81,8 +82,8 @@ class Utils(object):
         "get_word_index"
         return self.join_path(self.imdb_path, 'reuters_word_index.json')
 
-    def load_tfds(self):
-        ...
+    def load_tfds(self, filename):
+        return self.join_path(self.imdb_reviews_path, filename)
 
 
 tools = Utils()
