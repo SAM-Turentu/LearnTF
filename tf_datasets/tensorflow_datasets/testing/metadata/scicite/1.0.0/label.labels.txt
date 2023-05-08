@@ -1,3 +1,0 @@
-method
-background
-result

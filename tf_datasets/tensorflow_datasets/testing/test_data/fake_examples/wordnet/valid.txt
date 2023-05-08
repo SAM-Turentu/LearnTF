@@ -1,2 +1,0 @@
-02174461	_hypernym	02176268
-05074057	_derivationally_related_form	02310895

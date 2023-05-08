@@ -1,3 +1,0 @@
-Adelie
-Chinstrap
-Gentoo

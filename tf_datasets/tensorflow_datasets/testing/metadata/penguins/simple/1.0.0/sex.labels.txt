@@ -1,3 +1,0 @@
-FEMALE
-MALE
-NA

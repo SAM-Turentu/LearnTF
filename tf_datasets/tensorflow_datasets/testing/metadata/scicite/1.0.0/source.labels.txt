@@ -1,7 +1,0 @@
-properNoun
-andPhrase
-acronym
-etAlPhrase
-explicit
-acronymParen
-nan

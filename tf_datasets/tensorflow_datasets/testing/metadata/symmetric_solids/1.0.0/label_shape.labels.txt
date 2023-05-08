@@ -1,8 +1,0 @@
-tet
-cube
-icosa
-cone
-cyl
-tetX
-cylO
-sphereX

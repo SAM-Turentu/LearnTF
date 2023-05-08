@@ -1,1 +1,0 @@
-{"name": "Chapter name", "summary": ["This is a chapter summary."]}
