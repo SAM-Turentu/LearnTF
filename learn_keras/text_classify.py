@@ -10,7 +10,7 @@
 import tensorflow as tf
 from matplotlib import pyplot as plt
 
-from utils.utils import tools
+from utils import join_path
 
 
 def main():
@@ -20,13 +20,13 @@ def main():
     # cifar100 = tf.keras.datasets.cifar100
     # reuters = tf.keras.datasets.reuters
 
-    imdb_path = tools.imdb_data_path
+    imdb_path = join_path.keras_data_path.imdb_data_path
     (train_data, train_labels), (test_data, test_tabels) = imdb.load_data(imdb_path)
     # train_data[0]  单词已被转换为数字
     # train_labels 1：积极评论，0：消极评论
 
     # region 将数字转换为单词
-    reuters_word_index_path = tools.imdb_word_index_path
+    reuters_word_index_path = join_path.keras_data_path.imdb_word_index_path
     word_index = imdb.get_word_index(reuters_word_index_path)  # 加载 单词- 数字 对应的json文件
 
     word_index = {k: (v + 3) for k, v in word_index.items()}

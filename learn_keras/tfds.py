@@ -13,11 +13,11 @@ import tensorflow_hub as hub
 import tensorflow_datasets as tfds
 from matplotlib import pyplot as plt
 
-from utils.join_path import hub_model_path, tf_datasets
+from utils import join_path
 
 
 def main():
-    path = tf_datasets.tf_datasets
+    path = join_path.tf_datasets.tf_datasets
     train_data, validation_data, test_data = tfds.load(
         name='imdb_reviews',
         split=('train[:60%]', 'train[60%:]', 'test'),
@@ -36,7 +36,7 @@ def main():
     # embedding = 'nnlm-en-dim128-with-normalization_2'  # 训练的准确率会提升，但需要更多时间训练 val_accuracy ≈ 0.88
     # embedding = 'universal-sentence-encoder-4'  # val_accuracy ≈ 0.88  0.89
 
-    embedding = hub_model_path.model_path('nnlm-en-dim50_2')
+    embedding = join_path.hub_model_path.model_path('nnlm-en-dim50_2')
 
     hub_layer = hub.KerasLayer(embedding, input_shape=[], dtype=tf.string, trainable=True)
     hub_layer(train_examples_batch[:3])

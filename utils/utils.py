@@ -11,8 +11,7 @@ import gzip
 import os.path
 import numpy as np
 
-from utils import ProjectPath
-from utils.join_path import mnist_data_path
+from utils import join_path
 
 
 def switch_platform():
@@ -37,7 +36,7 @@ class Utils(object):
         ]
         paths = []
         for file in files:
-            paths.append(os.path.join(mnist_data_path.fashion_path, file))
+            paths.append(os.path.join(join_path.keras_data_path.fashion_path, file))
 
         with gzip.open(paths[0], "rb") as lbpath:
             y_train = np.frombuffer(lbpath.read(), np.uint8, offset=8)

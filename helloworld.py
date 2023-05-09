@@ -9,16 +9,19 @@
 
 import tensorflow as tf
 
+from utils import join_path
+
 
 def main():
     mnist = tf.keras.datasets.mnist
 
     # 每个图转换为 28 * 28 的二维数组，记录每个像素点的(只有黑色) black rgb值
 
-    file_path = 'E:\\SAM_Projects\\Python_Projects\\LearnTF\\keras_mnist_data\\datasets\\mnist.npz'  # 已经下载的数据集
+    file_path = join_path.keras_data_path.helloworld_keras_mnist_data_path  # 已经下载的数据集
+
     # 加载 mnist 数据集
     (x_train, y_train), (x_test, y_test) = mnist.load_data(file_path)  # 没有数据集时，自动下载
-    x_train, x_test = x_train / 255, x_test / 255   # 每个单元格 除以 255， 0-1范围内
+    x_train, x_test = x_train / 255, x_test / 255  # 每个单元格 除以 255， 0-1范围内
 
     # 通过堆叠层构建模型
     model = tf.keras.models.Sequential([

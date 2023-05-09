@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# @File    :   hub_model_join_path.py
+# @File    :   hub_model.py
 # @Time    :   2023/5/8
 # @Author  :   SAM
 # @Desc    :
