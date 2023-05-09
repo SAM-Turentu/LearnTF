@@ -17,7 +17,8 @@ from tensorflow.keras import regularizers
 
 from IPython import display
 
-
+# pip install ipython
+# pip install git+https://github.com/tensorflow/docs
 def main():
     logdir = pathlib.Path(tempfile.mkdtemp()) / "tensorboard_logs"
     shutil.rmtree(logdir, ignore_errors=True)

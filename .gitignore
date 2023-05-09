@@ -167,3 +167,6 @@ tf_datasets/
 
 hub_models/
 *hub_models/
+
+keras_data/HIGGS
+*keras_data/HIGGS
