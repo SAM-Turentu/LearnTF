@@ -2,7 +2,7 @@
 # @File    :   auto_mpg.py
 # @Time    :   2023/5/9
 # @Author  :   SAM
-# @Desc    :   回归
+# @Desc    :   回归（燃油效率）
 
 
 import pathlib
