@@ -17,6 +17,7 @@ class KerasDataPath(object):
         self._imdb_path = self._subfile_path('imdb')
         self._keras_mnist_data_path = self._subfile_path('keras_mnist_data')
         self._auto_mpg_path = self._subfile_path('auto_mpg')
+        self._higgs_path = self._subfile_path('HIGGS')
 
     def _subfile_path(self, path):
         """
@@ -46,6 +47,10 @@ class KerasDataPath(object):
     @property
     def auto_mpg_data_path(self):
         return self._join_path(self._auto_mpg_path, 'auto-mpg.data')
+
+    @property
+    def higgs_path(self):
+        return self._join_path(self._higgs_path, 'HIGGS.csv.gz')
 
 
 keras_data_path = KerasDataPath()
