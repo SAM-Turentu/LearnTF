@@ -26,7 +26,7 @@ from IPython import display
 from utils import join_path
 
 logdir = pathlib.Path(tempfile.mkdtemp()) / "tensorboard_logs"
-shutil.rmtree(logdir, ignore_errors=True)
+shutil.rmtree(logdir, ignore_errors=True)  # 删除文件
 
 # gz = tf.keras.utils.get_file('HIGGS.csv.gz', 'http://mlphysics.ics.uci.edu/data/higgs/HIGGS.csv.gz')  # 下载 超级慢
 gz = join_path.keras_data_path.higgs_path
@@ -100,7 +100,7 @@ def get_callbacks(name):
         # tfdocs.modeling.EpochDots,  # 降低日志记录噪声，每个周期打印一个”.“  每隔100个周期打印一整套指标
         modeling.EpochDots(),  # 降低日志记录噪声，每个周期打印一个”.“  每隔100个周期打印一整套指标
         # 此回调是为了监视val_binary_crossentropy 而不是 val_loss
-        tf.keras.callbacks.EarlyStopping(monitor='val_binary_crossentropy', patience=200),
+        tf.keras.callbacks.EarlyStopping(monitor='val_binary_crossentropy', patience=200),  # 模型没有进展，会终止训练
         tf.keras.callbacks.TensorBoard(logdir / name)  # 为训练生成 TensorBoard 日志
     ]
 
@@ -140,7 +140,6 @@ plotter.plot(size_histories)
 plt.ylim([0.5, 0.7])
 plt.show()
 
-
 # 小模型
 small_model = tf.keras.Sequential([
     # 设置两个隐层，每层16个单元
@@ -151,7 +150,6 @@ small_model = tf.keras.Sequential([
 
 size_histories['Small'] = compile_and_fit(small_model, 'sizes/Small')
 
-
 # 中等模型
 medium_model = tf.keras.Sequential([
     layers.Dense(64, activation='elu', input_shape=(FEATURES,)),
@@ -160,7 +158,6 @@ medium_model = tf.keras.Sequential([
     layers.Dense(1),
 ])
 size_histories['Medium'] = compile_and_fit(medium_model, 'sizes/medium')
-
 
 # 大模型
 large_model = tf.keras.Sequential([
@@ -176,3 +173,26 @@ plotter = plots.HistoryPlotter(metric='binary_crossentropy', smoothing_std=10)
 plotter.plot(size_histories)
 plt.ylim([0.5, 0.7])
 plt.show()
+
+plotter.plot(size_histories)
+a = plt.xscale('log')
+plt.xlim([5, max(plt.xlim())])
+plt.ylim([0.5, 0.7])
+plt.xlabel('Epochs [Log Scale]')
+plt.show()
+
+# 实线：训练损失
+# 虚线：验证损失，越低模型越好
+# 模型越大，能力越强，如不限制，很容易对训练集合过拟合
+
+# 在 TensorBoard 中查看写入的日志
+# %load_ext tensorboard
+# %tensorboard --logdir f"{logdir}/sizes"  # 官方文档和 本机环境不匹配，路径需要添加 ""
+
+
+# region 防止过拟合的策略
+
+shutil.rmtree(logdir / 'regularizers/Tiny', ignore_errors=True)
+shutil.copytree(logdir / 'sizes/Tiny', logdir / 'regularizers/Tiny')  # 复制文件及所有子文件
+
+# endregion
