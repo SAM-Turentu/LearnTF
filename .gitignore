@@ -170,3 +170,9 @@ hub_models/
 
 keras_data/HIGGS
 *keras_data/HIGGS
+
+learn_keras/checkpoints
+learn_keras/saved_model
+learn_keras/training_1
+learn_keras/training_2
+learn_keras/my_model.h5
