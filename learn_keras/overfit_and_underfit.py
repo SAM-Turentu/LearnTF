@@ -187,12 +187,103 @@ plt.show()
 
 # 在 TensorBoard 中查看写入的日志
 # %load_ext tensorboard
-# %tensorboard --logdir f"{logdir}/sizes"  # 官方文档和 本机环境不匹配，路径需要添加 ""
+# %tensorboard --logdir f"{logdir}/sizes"  # 官方文档和 本机环境不匹配，路径需要添加 ""  win
+# %tensorboard --logdir {logdir}/sizes  # mac
 
 
 # region 防止过拟合的策略
 
+path = '/var/folders/t2/bmcztwsd7ll65zgkk45vrbjm0000gn/T/tmpoliu7oab/tensorboard_logs'
+logdir = logdir or path
 shutil.rmtree(logdir / 'regularizers/Tiny', ignore_errors=True)
 shutil.copytree(logdir / 'sizes/Tiny', logdir / 'regularizers/Tiny')  # 复制文件及所有子文件
 
+regularizers_histories = {}
+regularizers_histories['Tiny'] = size_histories['Tiny']
+
+# 添加权重正则化
+# L1 正则化，其中添加的成本与权重系数的绝对值成正比
+# L2 正则化，其中添加的成本与权重系数值的平方成正比，L2 也称 权重衰减
+
+# L1 会促使权重向 0 靠近，鼓励稀疏模型。L2会惩罚权重参数而不使其稀疏化，因为对于较小权重，惩罚会趋近于 0
+
+l2_model = tf.keras.Sequential([
+    layers.Dense(512, activation='elu',
+                 kernel_regularizer=regularizers.l2(0.001),
+                 input_shape=(FEATURES,)),
+    layers.Dense(512, activation='elu',
+                 kernel_regularizer=regularizers.l2(0.001)),
+    layers.Dense(512, activation='elu',
+                 kernel_regularizer=regularizers.l2(0.001)),
+    layers.Dense(512, activation='elu',
+                 kernel_regularizer=regularizers.l2(0.001)),
+    layers.Dense(1)
+])
+
+# l2 表示层的权重矩阵中的每个系数都会将 0.001 * weight_coefficient_valie **2 添加到网络的 总损失 中
+# 这就是为什么要直接监视 binary_crossentropy，因为它没有混入此正则化组件
+
+regularizers_histories['l2'] = compile_and_fit(l2_model, 'regularizers/l2')
+
+plotter.plot(regularizers_histories)
+plt.ylim(0.5, 0.7)
+plt.show()
+# L2 模型现在比 Tiny 模型更具竞争力，L2 比 Large 模型更不容易过拟合
+
+result = l2_model(features)
+regularization_loss = tf.add_n(l2_model.losses)
+
+dropout_model = tf.keras.Sequential([
+    layers.Dense(512, activation='elu', input_shape=(FEATURES,)),
+    layers.Dropout(0.5),
+    layers.Dense(512, activation='elu'),
+    layers.Dropout(0.5),
+    layers.Dense(512, activation='elu'),
+    layers.Dropout(0.5),
+    layers.Dense(512, activation='elu'),
+    layers.Dropout(0.5),
+    layers.Dense(1)
+])
+
+# Dropout 引入随机失活
+
+regularizers_histories['dropout'] = compile_and_fit(dropout_model, "regularizers/dropout")
+
+plotter.plot(regularizers_histories)
+plt.ylim([0.5, 0.7])
+plt.show()
+
+# l2 + 随机失活
+combined_model = tf.keras.Sequential([
+    layers.Dense(512, kernel_regularizer=regularizers.l2(0.0001),
+                 activation='elu', input_shape=(FEATURES,)),
+    layers.Dropout(0.5),
+    layers.Dense(512, kernel_regularizer=regularizers.l2(0.0001),
+                 activation='elu'),
+    layers.Dropout(0.5),
+    layers.Dense(512, kernel_regularizer=regularizers.l2(0.0001),
+                 activation='elu'),
+    layers.Dropout(0.5),
+    layers.Dense(512, kernel_regularizer=regularizers.l2(0.0001),
+                 activation='elu'),
+    layers.Dropout(0.5),
+    layers.Dense(1)
+])
+
+regularizers_histories['combined'] = compile_and_fit(combined_model, 'regularizers/combined')
+
+plotter.plot(regularizers_histories)
+plt.ylim([0.5, 0.7])
+plt.show()
+
+# endregion
+
+
+# region 总结
+# 防止过拟合常见方式
+#  获得跟多训练数据
+#  降低网络容量
+#  添加权重正则化
+#  添加随机失活
+# 本此没有涉及的方法：数据增强；批次归一化（tf.keras.layers.BatchNormallization）
 # endregion
