@@ -174,3 +174,4 @@ keras_data/HIGGS
 BaseLearnTF/eager
 BaseLearnTF/intro_to_modules
 BaseLearnTF/basic_training_loops
+BaseLearnTF/advanced_autodiff
