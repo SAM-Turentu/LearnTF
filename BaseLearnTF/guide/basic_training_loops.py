@@ -170,7 +170,7 @@ keras_model = MyModelKeras()
 
 training_loop(keras_model, x, y)  # 可以使用keras 内置功能，不必每次都写新的 训练循环
 
-keras_model.save_weights('basic_training_loops/my_checkpoint')  # 保存检查点
+keras_model.save_weights('guide/basic_training_loops/my_checkpoint')  # 保存检查点
 
 # 使用 model.compile() 去设置参数, 使用model.fit() 进行训练
 keras_model = MyModelKeras()

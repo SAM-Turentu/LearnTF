@@ -193,15 +193,15 @@ tf.executing_eagerly()  # 开启 eager
 # # region 对象的保存
 #
 # # save_weights 创建检查点
-# model.save_weights('eager/weights')
-# status = model.load_weights('eager/weights')
+# model.save_weights('guide/eager/weights')
+# status = model.load_weights('guide/eager/weights')
 #
 # x = tf.Variable(10.)
 # checkpoint = tf.train.Checkpoint(x=x)
 #
 # x.assign(2.)  # 设置一个新值
-# checkpoint_path = './eager/ckpt/'
-# checkpoint.save('./eager/ckpt/')
+# checkpoint_path = './guide/eager/ckpt/'
+# checkpoint.save('./guide/eager/ckpt/')
 #
 # x.assign(11.)  # 设置一个新值
 # checkpoint.restore(tf.train.latest_checkpoint(checkpoint_path))  # 从检查点恢复值  x => 2
@@ -215,7 +215,7 @@ tf.executing_eagerly()  # 开启 eager
 # ])
 #
 # optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
-# checkpoint_dir = 'eager/path/to/model_dir'
+# checkpoint_dir = 'guide/eager/path/to/model_dir'
 # if not os.path.exists(checkpoint_dir):
 #     os.makedirs(checkpoint_dir)
 #
@@ -239,7 +239,7 @@ tf.executing_eagerly()  # 开启 eager
 # # endregion
 #
 #
-# logdir = './eager/tb/'
+# logdir = './guide/eager/tb/'
 # writer = tf.summary.create_file_writer(logdir)
 #
 # steps = 1000

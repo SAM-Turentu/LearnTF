@@ -97,7 +97,7 @@ model = MyModule()
 
 tf.saved_model.save(
     model,
-    'advanced_autodiff/saved_model',
+    'guide/advanced_autodiff/saved_model',
     # experimental_custom_gradients=True 可以将自定义梯度保存到 savemodel
     options=tf.saved_model.SaveOptions(experimental_custom_gradients=True)
 )
@@ -107,7 +107,7 @@ tf.saved_model.save(
 
 v = tf.Variable(2., name='v')
 
-loaded = tf.saved_model.load('advanced_autodiff/saved_model')
+loaded = tf.saved_model.load('guide/advanced_autodiff/saved_model')
 with tf.GradientTape() as t:
     output = loaded.call_custom_grad(v * v)
 print(t.gradient(output, v))
