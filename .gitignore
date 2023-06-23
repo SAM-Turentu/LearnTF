@@ -170,8 +170,11 @@ hub_models/
 
 keras_data/HIGGS
 *keras_data/HIGGS
+keras_data/cifar10
+keras_data/VGG19
 
 BaseLearnTF/guide/eager
 BaseLearnTF/guide/intro_to_modules
 BaseLearnTF/guide/basic_training_loops
 BaseLearnTF/guide/advanced_autodiff
+BaseLearnTF/keras/functional

@@ -18,6 +18,8 @@ class KerasDataPath(object):
         self._keras_mnist_data_path = self._subfile_path('keras_mnist_data')
         self._auto_mpg_path = self._subfile_path('auto_mpg')
         self._higgs_path = self._subfile_path('HIGGS')
+        self.cifar10_path = self._subfile_path('cifar10')
+        self._vgg19_path = self._subfile_path('VGG19')
 
     def _subfile_path(self, path):
         """
@@ -51,6 +53,13 @@ class KerasDataPath(object):
     @property
     def higgs_path(self):
         return self._join_path(self._higgs_path, 'HIGGS.csv.gz')
+
+    @property
+    def vgg19_path(self):
+        path = self._join_path(self._vgg19_path, 'vgg19_weights_tf_dim_ordering_tf_kernels.h5')
+        if 'BaseLearnTF' in path:
+            path = path.replace('BaseLearnTF\\', '')
+        return path
 
 
 keras_data_path = KerasDataPath()
