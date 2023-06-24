@@ -203,10 +203,119 @@ feat_extraction_model = keras.Model(inputs=vgg19.input, outputs=features_list)
 img = np.random.random((1, 224, 224, 3)).astype("float32")
 extracted_features = feat_extraction_model(img)
 
+
 # endregion
 
 
 # region 使用自定义层扩展 API
+
+# tf.keras 内置层：
+#  卷积层：Conv1D、Conv2D、Conv3D、Conv2DTranspose
+#  池化层：MaxPooling1D、MaxPooling2D、MaxPooling3D、AveragePooling1D
+#  RNN层：GRU、LSTM、ConvLSTM2D
+#  BatchNormalization、Dropout、Embedding
+
+# 创建自己的层扩展api，所有层都会子类化 Layer 类并实现 call 方法 和 build 方法
+class CustomDense(keras.layers.Layer):
+
+    def __init__(self, units=32):
+        super(CustomDense, self).__init__()
+        self.units = units
+
+    def build(self, input_shape):
+        self.w = self.add_weight(
+            shape=(input_shape[-1], self.units),
+            initializer='random_normal',
+            trainable=True
+        )
+        self.b = self.add_weight(
+            shape=(self.units,), initializer='random_normal', trainable=True
+        )
+
+    def call(self, inputs):
+        return tf.matmul(inputs, self.w) + self.b
+
+    def get_config(self):
+        """ 在自定义层中支持序列化，定义一个get_config方法，该方法返回该层实例的构造函数参数 """
+        return {'units': self.units}
+
+
+inputs = keras.Input((4,))
+outputs = CustomDense(10)(inputs)
+model = keras.Model(inputs, outputs)
+
+config = model.get_config()
+new_model = keras.Model.from_config(config, custom_objects={'CustomDense': CustomDense})
+
+# endregion
+
+
+# region 何时使用函数式 API
+
+inputs = keras.Input(shape=(32,))
+x = layers.Dense(64, activation='relu')(inputs)
+outputs = layers.Dense(10)(x)
+mlp = keras.Model(inputs, outputs)
+
+
+# 函数式API的优势，更加简洁， 没有 super().__init__(), 没有 def call() 等内容
+
+class MLP(keras.Model):
+
+    def __init__(self, **kwargs):
+        super(MLP, self).__init__(**kwargs)
+        self.dense_1 = layers.Dense(64, activation='relu')
+        self.dense_2 = layers.Dense(10)
+
+    def call(self, inputs):
+        x = self.dense_1(inputs)
+        return self.dense_2(x)
+
+
+# 提取和重用中间层的激活
+# features_list = [layer.output for layer in vgg19.layers]
+# feat_extraction_model = keras.Model(inputs=vgg19.input, outputs=features_list)
+
+# endregion
+
+
+# region 混搭API样式
+
+units = 32
+timesteps = 10
+input_dim = 5
+
+inputs = keras.Input((None, units))
+x = layers.GlobalAveragePooling1D()(inputs)
+outputs = layers.Dense(1)(x)
+model = keras.Model(inputs, outputs)
+
+
+class CustomRNN(keras.layers.Layer):
+
+    def __init__(self):
+        super(CustomRNN, self).__init__()
+        self.units = units
+        self.projection_1 = layers.Dense(units=units, activation='tanh')
+        self.projection_2 = layers.Dense(units=units, activation='tanh')
+        self.classifier = model
+
+    def call(self, inputs):
+        outputs = []
+        state = tf.zeros(shape=(inputs.shape[0], self.units))
+        for t in range(inputs.shape[1]):
+            x = inputs[:, t, :]
+            h = self.projection_1(x)
+            y = h + self.projection_2(state)
+            state = y
+            outputs.append(y)
+        features = tf.stack(outputs, axis=1)
+        print(features.shape)
+        return self.classifier(features)
+
+
+rnn_model = CustomRNN()
+_ = rnn_model(tf.zeros((1, timesteps, input_dim)))
 
 
 # endregion
