@@ -178,3 +178,4 @@ BaseLearnTF/guide/intro_to_modules
 BaseLearnTF/guide/basic_training_loops
 BaseLearnTF/guide/advanced_autodiff
 BaseLearnTF/keras/functional
+BaseLearnTF/keras/writing_a_training_loop
