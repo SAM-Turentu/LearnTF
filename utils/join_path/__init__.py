@@ -8,3 +8,4 @@
 from utils.join_path.hub_model import hub_model_path
 from utils.join_path.keras_data import keras_data_path
 from utils.join_path.tf_datasets import tf_datasets
+from utils.join_path.load_data import load_data
