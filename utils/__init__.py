@@ -9,4 +9,7 @@
 
 import os
 
-ProjectPath = os.path.dirname(os.getcwd())
+if 'BaseLearnTF' in os.path.dirname(os.getcwd()):
+    ProjectPath = os.path.abspath(os.path.join(os.getcwd(), "../.."))
+else:
+    ProjectPath = os.path.dirname(os.getcwd())

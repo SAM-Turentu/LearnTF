@@ -178,3 +178,14 @@ learn_keras/training_2
 learn_keras/my_model.h5
 learn_keras/my_dir
 load_data
+
+keras_data/cifar10
+keras_data/VGG19
+
+BaseLearnTF/guide/eager
+BaseLearnTF/guide/intro_to_modules
+BaseLearnTF/guide/basic_training_loops
+BaseLearnTF/guide/advanced_autodiff
+BaseLearnTF/keras/functional
+BaseLearnTF/keras/writing_a_training_loop
+BaseLearnTF/guide/random_numbers
