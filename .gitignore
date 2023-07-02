@@ -179,3 +179,4 @@ BaseLearnTF/guide/basic_training_loops
 BaseLearnTF/guide/advanced_autodiff
 BaseLearnTF/keras/functional
 BaseLearnTF/keras/writing_a_training_loop
+BaseLearnTF/guide/random_numbers
