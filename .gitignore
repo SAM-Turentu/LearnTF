@@ -168,9 +168,6 @@ tf_datasets/
 hub_models/
 *hub_models/
 
-keras_data/HIGGS
-*keras_data/HIGGS
-
 learn_keras/checkpoints
 learn_keras/saved_model
 learn_keras/training_1
@@ -179,8 +176,14 @@ learn_keras/my_model.h5
 learn_keras/my_dir
 load_data
 
+keras_data/HIGGS
+*keras_data/HIGGS
 keras_data/cifar10
 keras_data/VGG19
+keras_data/fsns
+keras_data/creditcard
+keras_data/titanic_csv
+keras_data/illiad_txt
 
 BaseLearnTF/guide/eager
 BaseLearnTF/guide/intro_to_modules
